@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Switch Detection Demo</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    #log { margin-top: 20px; max-height: 300px; overflow-y: auto; background: #f9f9f9; padding: 10px; border: 1px solid #ccc; }
+    .event { margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Tab Switch Detection Demo</h1>
+  <p>Detects browser tab switches and focus changes, logging timestamps and states.</p>
+  <div id="log"></div>
+
+  <script>
+    // Add mgs to log
+    function addLog(message) {
+      const log = document.getElementById('log');
+      const time = new Date().toLocaleString();
+      const div = document.createElement('div');
+      div.className = 'event';
+      div.textContent = `${time} - ${message}`;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // Page Visibility API
+    document.addEventListener('visibilitychange', () => {
+      const state = document.visibilityState === 'visible' ? 'Tab is active' : 'Tab is inactive';
+      addLog(`Visibility change: ${state}`);
+    });
+
+    // Detect window focus and blur
+    window.addEventListener('focus', () => addLog('Window regained focus'));
+    window.addEventListener('blur', () => addLog('Window lost focus'));
+
+    // Init
+    addLog('Page loaded');
+  </script>
+</body>
+</html>
